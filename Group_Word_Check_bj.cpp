@@ -1,3 +1,4 @@
+// baekjoon 1316
 #include <iostream>
 #include <string>
 
@@ -5,7 +6,6 @@ using namespace std;
 
 int N, n_count, length;
 string word;
-int wordcheck[26];
 bool key;
 
 int main() {
