@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int n_count, save, num, answer;
+int num, answer, sum, savepoint, n_count;
 string sig;
 
 vector<int>sign;
@@ -15,38 +15,46 @@ int main() {
 	sign.push_back(1);
 	for (int i{ 0 }; i < sig.length(); i++) {
 		if (sig[i] == '+' || sig[i] == '-') {
+			
+			nums.push_back(num);
 			num = 0;
-			for (int j{ n_count }; j > 0; j--) {
-				save = 1;
-				if (n_count > 1) {
-					for (int k{ 1 }; k < j; k++) {
-						save *= 10;
-					}
-				}
-				save *= sig[i - n_count] - 48;
-			}
-			num += save;
-			if (sig[i] == '-') {
-				sign.push_back(0);
-			}
-			else if (sig[i] == '+') {
+
+			if (sig[i] == '+') {
 				sign.push_back(1);
 			}
-			nums.push_back(num);
-			n_count = 0;
+			else
+				sign.push_back(0);
 		}
 		else {
-			n_count++;
+			num = (num * 10) + (sig[i] - '0');
 		}
 	}
 
-	for (int i{ 0 }; i < nums.size(); i++) {
+	nums.push_back(num);
+
+	for (int i{ 0 }; i < sign.size(); i++) {
 		if (sign[i] == 1) {
-			answer += nums[i];
+			sum += nums[i];
 		}
-		else if (sign[i] == 0) {
-			answer -= nums[i];
+		else {
+			if (n_count == 0)
+				answer = sum;
+			else {
+				answer -= sum;
+			}
+			n_count++;
+			sum = 0;
+			sum += nums[i];
 		}
+	}
+	if (sign.size() == 1)
+		answer = sum;
+	else {
+		if (n_count == 0) {
+			answer = sum;
+		}
+		else
+		answer -= sum;
 	}
 
 	cout << answer << "\n";
