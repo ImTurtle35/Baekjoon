@@ -1,51 +1,46 @@
 // Algospot - JUMPGAME
 #include <iostream>
+#include <string>
 
 using namespace std;
 
-bool key;
 int C, n, position, save;
-int gameboard[101][101];
+int gameboard[100][100];
+int cache[100][100];
 
-void possible(int x, int y, int e) {
-	if (key == true)
-		return;
-	if (x > e || y > e) {
-		return;
+int possible(int x, int y, int e) {
+
+	if (x == e -1 && y == e-1) {
+		return 1;
 	}
-	else {
-		if (x == e && y == e) {
-			key = true;
-			return;
-		}
-		else {
-			save = gameboard[x][y];
-			possible(x + save, y, e);
-			if (key == true)
-				return;
-			possible(x, y + save, e);
-			if (key == true)
-				return;
-		}
+
+	if (x >= e || y >= e) {
+		return 0;
 	}
-	return;
+
+	if (cache[x][y] != -1) {
+		return cache[x][y];
+	}
+	return cache[x][y] = (possible(x + gameboard[x][y], y, e)||possible(x, y + gameboard[x][y],e));
 }
 
 int main() {
-	cin.tie(NULL);
-	cout.tie(NULL);
-	ios::sync_with_stdio(false);
 	cin >> C;
 	for (int i{ 0 }; i < C; i++) {
-		key = false;
 		cin >> n;
+	
+		for (int j{ 0 }; j < 100; j++) {
+			for (int k{ 0 }; k < 100; k++) {
+				cache[j][k] = -1;
+			}
+		}
+		
 		for (int j{ 0 }; j < n; j++) {
 			for (int k{ 0 }; k < n; k++) {
 				cin >> gameboard[j][k];
 			}
 		}
-		possible(0, 0, n - 1);
-		if (key == true) {
+		if (possible(0, 0, n) == 1) {
 			cout << "YES\n";
 		}
 		else {
