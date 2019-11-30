@@ -22,7 +22,7 @@ int p_search(int left, int right) {
 		n_sum = 0;
 		for (int i{ 0 }; i < N; i++) {
 			if (beads[i] > mid) {
-				key == 0;
+				key = 0;
 				break;
 			}
 			n_sum += beads[i];
@@ -74,7 +74,7 @@ void g_match(int answer) {
 				b_group[i]--; i--; gap_save--;
 			}
 		}
-		sort(b_group.begin(), b_group.end());
+		// sort(b_group.begin(), b_group.end());
 		for (int i = b_group.size() - 1; i >= 0; i--) {
 			cout << b_group[i] << " ";
 		}
